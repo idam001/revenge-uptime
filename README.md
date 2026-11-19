@@ -4,7 +4,7 @@
 
 **Premium uptime monitoring — fully self-hosted, no monthly fees.**
 
-<p>Powered by <strong>idam Emmanuel</strong></p>
+<p>Powered by <strong>idam Emmanuel.</strong></p>
 
 </div>
 
@@ -71,8 +71,20 @@ serverless platform such as Vercel Functions. Deploy it on any always-on host: a
 or a container platform with a persistent volume. For a free cloud setup, pair this server with a database backup
 and put a reverse proxy (Caddy/Nginx/Cloudflare Tunnel) in front of it.
 
-The companion `cloud/` directory contains the optional Supabase + Vercel layer: a scheduled serverless check engine
-and a public status page that can run entirely on free tiers.
+## Free cloud dashboard (live)
+
+The companion `cloud/` directory is the always-on free-tier app:
+
+**https://revenge-uptime-web.vercel.app**
+
+- UptimeRobot-style dark dashboard with left nav, monitor table, right status rail, search/filter/sort
+- Real monitor CRUD, incident tracking, webhook/Slack/Discord alert fan-out, status pages and maintenance windows
+- Checks run every minute from Supabase edge functions; dashboard refreshes every 15 seconds
+- Admin writes are protected by `RV_ADMIN_SECRET`; it is entered once in the browser and kept only in session storage
+
+The Vercel entry document loads the dashboard assets from a pinned jsDelivr URL of this repository because Vercel's
+Git integration could not retrieve commit metadata in this environment. Source of truth remains this repo; see
+`cloud/README.md` for full details.
 
 ## License & attribution
 

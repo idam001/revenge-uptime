@@ -14,6 +14,7 @@ alert delivery and writes all happen against Supabase from Vercel.
 - Status pages: create, edit, publish and view public pages with selected monitors
 - Maintenance windows, integrations/API page, team/owner view
 - 15-second dashboard refresh; responsive mobile layout
+- Verified end-to-end in a real browser: navigation, monitor create/delete, and all read views
 
 ## Architecture
 
@@ -33,6 +34,11 @@ The admin secret is entered once in the browser and kept in `sessionStorage`; it
 - Supabase project: `fszewuewdsjloiwwggvy`
 - Edge functions: `rv-check`, `rv-api`
 - Cron: `revenge-uptime-checks`, every minute
+
+Vercel's Git deployments failed with `git_info_fail` in this environment, so the production entry document is
+deployed from uploaded files and loads `cloud/web/styles.css` and `cloud/web/app.js` from a commit-pinned jsDelivr
+URL. Any future dashboard change should be committed, then the pinned hash in the Vercel deployment's `index.html`
+updated and redeployed.
 
 ## Original project
 
