@@ -32,6 +32,9 @@ create index if not exists rv_heartbeats_monitor_time_idx
 alter table public.rv_monitors enable row level security;
 alter table public.rv_heartbeats enable row level security;
 
+grant usage on schema public to anon, authenticated;
+grant select on public.rv_monitors, public.rv_heartbeats to anon, authenticated;
+
 drop policy if exists rv_monitors_public_read on public.rv_monitors;
 create policy rv_monitors_public_read on public.rv_monitors
     for select to anon, authenticated using (true);
