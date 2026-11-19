@@ -80,8 +80,8 @@ create table if not exists public.rv_maintenance (
 -- Public read access for the dashboard and public status pages.
 grant usage on schema public to anon, authenticated;
 grant select on public.rv_monitors, public.rv_heartbeats, public.rv_incidents,
-    public.rv_notifications, public.rv_status_pages, public.rv_status_page_monitors,
-    public.rv_maintenance to anon, authenticated;
+    public.rv_notifications, public.rv_notification_log, public.rv_status_pages,
+    public.rv_status_page_monitors, public.rv_maintenance to anon, authenticated;
 
 alter table public.rv_monitors enable row level security;
 alter table public.rv_heartbeats enable row level security;
@@ -93,7 +93,7 @@ alter table public.rv_status_page_monitors enable row level security;
 alter table public.rv_maintenance enable row level security;
 
 do $$ declare t text; begin
-  foreach t in array array['rv_monitors','rv_heartbeats','rv_incidents','rv_status_pages','rv_status_page_monitors','rv_maintenance'] loop
+  foreach t in array array['rv_monitors','rv_heartbeats','rv_incidents','rv_notifications','rv_notification_log','rv_status_pages','rv_status_page_monitors','rv_maintenance'] loop
     execute format('drop policy if exists %I on public.%I', t || '_public_read', t);
     execute format('create policy %I on public.%I for select to anon, authenticated using (true)', t || '_public_read', t);
   end loop;
