@@ -125,7 +125,7 @@ function renderMonitors() {
   $("#q").oninput = (e) => { S.search = e.target.value; refreshTableOnly(); };
   $("#filter").onchange = (e) => { S.filter = e.target.value; renderMonitors(); bindTable(); };
   $("#sort").onchange = (e) => { S.sort = e.target.value; renderMonitors(); bindTable(); };
-  $("#newMon").onclick = monitorForm;
+  $("#newMon").onclick = () => monitorForm();
   bindTable();
 }
 function refreshTableOnly() {

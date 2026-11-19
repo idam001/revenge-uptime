@@ -45,9 +45,11 @@ Deno.serve(async (req) => {
         result = await insert("rv_monitors", { name: payload.name, url: payload.url, keyword: payload.keyword || null, type: payload.type || "http", interval_seconds: Number(payload.interval_seconds || 60), status: "pending", uptime_24h: 100 }, true);
         break;
       case "updateMonitor": {
+        const id = Number(payload.id);
+        if (!Number.isFinite(id)) throw new Error("invalid monitor id");
         const fields: any = {};
         for (const k of ["name", "url", "keyword", "type", "interval_seconds", "active"]) if (k in payload) fields[k] = payload[k];
-        result = await patch("rv_monitors", Number(payload.id), fields);
+        result = await patch("rv_monitors", id, fields);
         break;
       }
       case "pauseMonitor": result = await patch("rv_monitors", Number(payload.id), { active: false }); break;
