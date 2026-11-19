@@ -5,16 +5,17 @@ alert delivery and writes all happen against Supabase from Vercel.
 
 ## Features
 
-- UptimeRobot-style dark dashboard: left navigation, dense monitor table, right status rail
-- Monitor CRUD: add, edit, pause/resume and delete real monitors
-- Search, status filter and sorting; segmented 24h availability bars; uptime percentages
-- Monitor detail page: response-time chart, average/max latency, availability, incident history
-- Incidents: automatically opened on DOWN and resolved on RECOVERY, with real durations
-- Alert contacts: webhook / Slack / Discord channels, test button, automatic DOWN/UP alerts
-- Status pages: create, edit, publish and view public pages with selected monitors
-- Maintenance windows, integrations/API page, team/owner view
-- 15-second dashboard refresh; responsive mobile layout
-- Verified end-to-end in a real browser: navigation, monitor create/delete, and all read views
+- Rebuilt v2 console: refined dark design system, SVG icon set, glass panels, gradient accents and micro-interactions
+- Good navigation: grouped sidebar, breadcrumbs, command palette (⌘/Ctrl+K), keyboard shortcuts and mobile drawer
+- Synchronization engine: 10-second cloud polling, cross-tab BroadcastChannel, online/visibility reconciliation and optimistic write states
+- Full control surface: monitor CRUD, bulk pause/resume/delete, duplicate, dense-view mode and session lock/unlock
+- Monitor table with search, status segments, four sort modes, uptime bars, latency and sortable columns
+- Monitor detail with gradient response-time chart, availability heatmap and automatic incident timeline
+- Incidents with ongoing/resolved filters, manual resolve and delete
+- Alert contacts with webhook / Slack / Discord channels and live test delivery
+- Status pages with editor, monitor selection and a public component/timeline view
+- Maintenance windows, integrations/API reference, team view and settings console
+- Verified end-to-end in a real browser: navigation, command palette, monitor create and bulk pause/delete
 
 ## Architecture
 

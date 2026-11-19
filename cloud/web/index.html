@@ -3,38 +3,73 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0d1117">
+<meta name="theme-color" content="#080b12">
 <title>REVENGE UPTIME — Premium Monitoring</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230d1117'/%3E%3Cpath d='M38 10 18 36h12l-3 18 20-27H35z' fill='%237c5cff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%237c5cff'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%230b0f19'/%3E%3Cpath d='M38 8 17 36h13l-4 20 22-29H35l3-19z' fill='url(%23g)'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="app">
- <aside id="sidebar" class="sidebar">
-  <div class="brand"><span class="brand-icon">⚡</span><span>REVENGE<br><b>UPTIME</b></span></div>
-  <nav id="nav" class="nav"></nav>
-  <div class="side-foot">
-   <div class="side-plan"><span class="plan-dot"></span><div><b>Unlimited monitors</b><small>Completely free · self-hosted</small></div></div>
-   <div class="signed">Powered by <b>idam Emmanuel.</b></div>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <span class="brand-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 10-13h-7l0-7z"/></svg></span>
+      <span class="brand-word"><b>REVENGE</b><small>UPTIME</small></span>
+    </div>
+
+    <div class="nav-scroll">
+      <div class="nav-caption">WORKSPACE</div>
+      <nav class="nav" id="nav"></nav>
+      <div class="nav-caption nav-caption-second">SYSTEM</div>
+      <nav class="nav nav-secondary" id="navSecondary"></nav>
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="sync-mini" id="syncMini">
+        <span class="sync-dot"></span>
+        <div><b id="syncMiniTitle">Connecting…</b><small id="syncMiniSub">Supabase cloud</small></div>
+      </div>
+      <div class="credit">Powered by <b>idam Emmanuel.</b></div>
+    </div>
+  </aside>
+
+  <div class="main-column">
+    <header class="topbar">
+      <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open navigation">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="breadcrumb">
+        <span id="crumbSection">Workspace</span>
+        <i>/</i>
+        <b id="crumbTitle">Monitors</b>
+      </div>
+      <div class="topbar-actions">
+        <button class="search-trigger" id="cmdTrigger">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span>Search or jump to…</span><kbd>⌘ K</kbd>
+        </button>
+        <div class="sync-chip" id="syncChip" title="Cloud synchronization status"><span></span><b>Synced</b></div>
+        <button class="icon-btn" id="refreshBtn" title="Sync now">
+          <svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></svg>
+        </button>
+        <div class="avatar" title="idam001">IE</div>
+      </div>
+    </header>
+
+    <main class="view" id="view">
+      <div class="skeleton-page">
+        <div class="sk sk-title"></div>
+        <div class="sk sk-line"></div>
+        <div class="sk sk-card"></div>
+      </div>
+    </main>
   </div>
- </aside>
 
- <div class="content">
-  <header class="topbar">
-   <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
-   <div class="crumb" id="crumb">Monitoring</div>
-   <div class="top-actions">
-    <span class="sync" id="sync">● Live</span>
-    <button class="icon-btn" id="refreshBtn" title="Refresh now">↻</button>
-   </div>
-  </header>
-  <main id="view" class="view"><div class="loading">Loading REVENGE UPTIME…</div></main>
- </div>
-
- <aside id="rail" class="rail"></aside>
+  <aside class="rail" id="rail"></aside>
 </div>
-<div id="toast" class="toast"></div>
-<div id="modal" class="modal-root"></div>
+
+<div class="palette-root" id="paletteRoot"></div>
+<div class="modal-root" id="modalRoot"></div>
+<div class="toast-stack" id="toastStack"></div>
 <script src="app.js"></script>
 </body>
 </html>

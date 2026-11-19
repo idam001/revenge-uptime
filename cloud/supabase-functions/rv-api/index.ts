@@ -79,6 +79,16 @@ Deno.serve(async (req) => {
       case "deleteMaintenance": result = await remove("rv_maintenance", Number(payload.id)); break;
       case "resolveIncident": result = await patch("rv_incidents", Number(payload.id), { status: "resolved", resolved_at: new Date().toISOString() }); break;
       case "deleteIncident": result = await remove("rv_incidents", Number(payload.id)); break;
+      case "bulkMonitorAction": {
+        const ids = (payload.ids || []).map(Number).filter(Number.isFinite);
+        for (const id of ids) {
+          if (payload.bulk === "pauseMonitor") await patch("rv_monitors", id, { active: false });
+          else if (payload.bulk === "resumeMonitor") await patch("rv_monitors", id, { active: true, status: "pending" });
+          else if (payload.bulk === "deleteMonitor") await remove("rv_monitors", id);
+        }
+        result = { ok: true, count: ids.length };
+        break;
+      }
       default: result = { ok: false, error: "unknown action" };
     }
     return json({ ...(result as object), action });

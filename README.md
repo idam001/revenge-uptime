@@ -77,9 +77,10 @@ The companion `cloud/` directory is the always-on free-tier app:
 
 **https://revenge-uptime-web.vercel.app**
 
-- UptimeRobot-style dark dashboard with left nav, monitor table, right status rail, search/filter/sort
-- Real monitor CRUD, incident tracking, webhook/Slack/Discord alert fan-out, status pages and maintenance windows
-- Checks run every minute from Supabase edge functions; dashboard refreshes every 15 seconds
+- Rebuilt v2 console with grouped navigation, command palette, breadcrumbs, status rail and premium dark design
+- Real monitor CRUD, bulk control, incident tracking, webhook/Slack/Discord alerts, status pages and maintenance windows
+- Synchronization engine: 10-second cloud polling, cross-tab sync, online/visibility reconciliation and write-state feedback
+- Checks run every minute from Supabase Edge Functions; the UI reconciles automatically
 - Admin writes are protected by `RV_ADMIN_SECRET`; it is entered once in the browser and kept only in session storage
 
 The Vercel entry document loads the dashboard assets from a pinned jsDelivr URL of this repository because Vercel's
