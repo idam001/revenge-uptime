@@ -1,39 +1,40 @@
-# REVENGE UPTIME — free cloud layer (Supabase + Vercel)
+# REVENGE UPTIME — free cloud app (Supabase + Vercel)
 
-This directory contains the optional serverless companion to the main self-hosted REVENGE UPTIME server.
+This is the always-on, free-tier application layer. It is **not a mock**: checks, heartbeats, incidents,
+alert delivery and writes all happen against Supabase from Vercel.
 
-## Why it exists
+## Features
 
-The core app in this repository is a stateful Node.js server. It cannot run inside Vercel's serverless runtime,
-and Vercel's free cron only runs once per day. This cloud layer uses the actually-free pieces instead:
+- UptimeRobot-style dark dashboard: left navigation, dense monitor table, right status rail
+- Monitor CRUD: add, edit, pause/resume and delete real monitors
+- Search, status filter and sorting; segmented 24h availability bars; uptime percentages
+- Monitor detail page: response-time chart, average/max latency, availability, incident history
+- Incidents: automatically opened on DOWN and resolved on RECOVERY, with real durations
+- Alert contacts: webhook / Slack / Discord channels, test button, automatic DOWN/UP alerts
+- Status pages: create, edit, publish and view public pages with selected monitors
+- Maintenance windows, integrations/API page, team/owner view
+- 15-second dashboard refresh; responsive mobile layout
 
-| Piece | What it does | Cost |
-| --- | --- | --- |
-| Supabase Postgres | Stores monitors and heartbeats (`rv_monitors`, `rv_heartbeats`) | Free tier |
-| Supabase Edge Function `rv-check` | Performs real HTTP/HTTPS + keyword checks and records every result | Free tier |
-| Supabase `pg_cron` + `pg_net` | Triggers the check function once per minute | Free tier |
-| Vercel static dashboard | Live UptimeRobot-style dashboard reading Supabase over REST | Free (Hobby) |
+## Architecture
 
-## Files
+| Piece | Role |
+| --- | --- |
+| `supabase/schema.sql` | Tables, RLS policies, public read grants, minute cron |
+| `supabase-functions/rv-check/index.ts` | Real HTTP/keyword checks, heartbeats, incidents, alert fan-out |
+| `supabase-functions/rv-api/index.ts` | Authenticated CRUD API for all write actions |
+| `web/index.html`, `web/styles.css`, `web/app.js` | The Vercel-deployed single-page dashboard |
 
-- `supabase/schema.sql` — tables, RLS policies and the minute cron job (secret placeholders).
-- `supabase-functions/rv-check/index.ts` — the Deno check engine source.
-- `web/index.html` — the deployed Vercel dashboard (single file, no external dependencies).
-
-## Deployment recap
-
-1. Run `supabase/schema.sql` in your Supabase SQL editor.
-2. Set edge-function secrets: `RV_CRON_SECRET` (and the platform-provided `SUPABASE_URL` /
-   `SUPABASE_SERVICE_ROLE_KEY` are used automatically).
-3. Deploy `supabase-functions/rv-check/index.ts` as edge function `rv-check` with JWT verification disabled.
-4. Put the same `RV_CRON_SECRET` into the `cron.schedule` call in SQL.
-5. Deploy `web/index.html` to a Vercel project. The Supabase anon key is a **publishable** key and is safe to
-   embed; RLS allows public reads of monitor/heartbeat data only.
+Secrets (`RV_CRON_SECRET`, `RV_ADMIN_SECRET`) live only as Supabase edge-function secrets.
+The admin secret is entered once in the browser and kept in `sessionStorage`; it is never in source.
 
 ## Live deployment (idam001)
 
-- Dashboard: https://revenge-uptime-web-idamemmanuel202-7391.vercel.app
-- Check engine: `rv-check` on the REVENGE GPT Supabase project
-- Schedule: `revenge-uptime-checks`, every minute
+- Dashboard: https://revenge-uptime-web.vercel.app
+- Supabase project: `fszewuewdsjloiwwggvy`
+- Edge functions: `rv-check`, `rv-api`
+- Cron: `revenge-uptime-checks`, every minute
 
-No API secret is stored in this repository.
+## Original project
+
+The full self-hosted Uptime Kuma-derived application is in the repository root. This cloud app is the
+free hosted companion because the Kuma server itself needs a persistent Node process.
