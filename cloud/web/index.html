@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REVENGE UPTIME — Premium Monitoring</title>
+<style>
+:root{--bg:#080b12;--panel:#0f1420;--panel2:#141a29;--line:#1e2639;--txt:#e9edf7;--muted:#8b95ad;--violet:#7c5cff;--cyan:#22d3ee;--up:#34d399;--down:#fb7185;--wait:#fbbf24}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 600px at 15% -10%,#1b1740 0,transparent 55%),var(--bg);color:var(--txt);font:14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+header{height:70px;display:flex;align-items:center;gap:14px;padding:0 28px;border-bottom:1px solid var(--line);background:rgba(8,11,18,.85);backdrop-filter:blur(12px);position:sticky;top:0;z-index:5}
+.logo{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,var(--violet),var(--cyan));font-weight:900;font-size:20px;color:#070a10}
+.brand{font-size:18px;font-weight:800;letter-spacing:.02em}.brand small{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);font-weight:700}
+nav{margin-left:auto;display:flex;gap:8px}nav button{background:transparent;border:1px solid var(--line);color:var(--muted);padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:600}nav button.active{color:#fff;border-color:var(--violet);background:rgba(124,92,255,.16)}
+.shell{display:grid;grid-template-columns:270px 1fr;gap:24px;max-width:1440px;margin:0 auto;padding:28px}
+.sidebar{display:flex;flex-direction:column;gap:14px}.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:18px}
+.stat{display:flex;align-items:center;justify-content:space-between}.stat .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.1em;font-weight:700}.stat .value{font-size:30px;font-weight:800;margin-top:4px}.dot{width:10px;height:10px;border-radius:50%;box-shadow:0 0 14px currentColor}
+.side-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.16em;font-weight:800;margin:10px 2px 0}
+.toolbar{display:flex;align-items:center;gap:12px;margin-bottom:18px}.toolbar h1{margin:0;font-size:22px}.live{margin-left:auto;font-size:12px;color:var(--up);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);padding:6px 12px;border-radius:99px;font-weight:700}.live::before{content:"● ";font-size:9px}
+.monitors{display:grid;gap:12px}.monitor{display:grid;grid-template-columns:1fr 110px 110px 180px;gap:16px;align-items:center;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:16px 18px;transition:.2s}.monitor:hover{border-color:#3a335e;transform:translateY(-1px)}
+.mname{font-weight:700;font-size:15px}.murl{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:420px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.pill.up{color:var(--up);background:rgba(52,211,153,.12)}.pill.down{color:var(--down);background:rgba(251,113,133,.12)}.pill.pending{color:var(--wait);background:rgba(251,191,36,.12)}
+.meta{font-size:12px;color:var(--muted)}.meta b{display:block;color:var(--txt);font-size:14px;font-weight:700}
+.bar{display:flex;gap:2px;height:28px;align-items:flex-end}.bar i{flex:1;min-width:2px;border-radius:2px;background:var(--up);opacity:.85}.bar i.d{background:var(--down)}.bar i.p{background:var(--wait)}
+.uptime{font-size:11px;color:var(--muted);margin-top:5px;text-align:right}
+.status-hero{background:linear-gradient(135deg,rgba(124,92,255,.18),rgba(34,211,238,.08));border:1px solid #312a5a;border-radius:20px;padding:26px;margin-bottom:18px}.status-hero h2{margin:0 0 6px;font-size:24px}.status-hero p{margin:0;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:24px 0 34px}footer b{color:var(--violet)}
+.err{color:var(--down);padding:18px;border:1px solid rgba(251,113,133,.3);border-radius:14px;background:rgba(251,113,133,.07)}
+@media(max-width:900px){.shell{grid-template-columns:1fr;padding:16px}.sidebar{display:grid;grid-template-columns:repeat(2,1fr)}.monitor{grid-template-columns:1fr 90px}.monitor .bar-wrap{grid-column:1/-1}header{padding:0 16px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">⚡</div>
+ <div class="brand">REVENGE UPTIME<small>Powered by idam Emmanuel</small></div>
+ <nav><button id="tabDash" class="active" onclick="setView('dash')">Dashboard</button><button id="tabStatus" onclick="setView('status')">Status</button></nav>
+</header>
+<div class="shell">
+ <aside class="sidebar">
+  <div class="card"><div class="stat"><span class="label">Monitors</span><span class="dot" style="color:var(--violet);background:var(--violet)"></span></div><div class="value" id="sTotal">—</div></div>
+  <div class="card"><div class="stat"><span class="label">Up now</span><span class="dot" style="color:var(--up);background:var(--up)"></span></div><div class="value" id="sUp" style="color:var(--up)">—</div></div>
+  <div class="card"><div class="stat"><span class="label">Down now</span><span class="dot" style="color:var(--down);background:var(--down)"></span></div><div class="value" id="sDown" style="color:var(--down)">—</div></div>
+  <div class="side-title">Overall uptime · 24h</div>
+  <div class="card"><div class="value" id="sUptime" style="color:var(--cyan)">—</div><div class="meta">Across all active monitors</div></div>
+ </aside>
+ <main>
+  <div id="dashView">
+   <div class="toolbar"><h1>Monitor dashboard</h1><div class="live" id="live">Live · updating every 15s</div></div>
+   <div id="list" class="monitors"><div class="card meta">Loading live data…</div></div>
+  </div>
+  <div id="statusView" style="display:none">
+   <div class="status-hero"><h2 id="statusHead">Checking services…</h2><p>Live availability from the REVENGE UPTIME check engine.</p></div>
+   <div id="statusList" class="monitors"></div>
+  </div>
+ </main>
+</div>
+<footer>REVENGE UPTIME ⚡ Powered by <b>idam Emmanuel</b></footer>
+<script>
+const SB='https://fszewuewdsjloiwwggvy.supabase.co';
+const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZzemV3dWV3ZHNqbG9pd3dnZ3Z5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM3NTYyNjAsImV4cCI6MjEwOTMzMjI2MH0.xnpqp_LO8gqBzsm10SXJK4Avg1WG4POkHduhu71b5S0';
+let view='dash';
+function setView(v){view=v;document.getElementById('dashView').style.display=v==='dash'?'':'none';document.getElementById('statusView').style.display=v==='status'?'':'none';document.getElementById('tabDash').className=v==='dash'?'active':'';document.getElementById('tabStatus').className=v==='status'?'active':'';}
+async function api(path){const r=await fetch(SB+'/rest/v1/'+path,{headers:{apikey:KEY,Authorization:'Bearer '+KEY}});if(!r.ok)throw new Error(await r.text());return r.json();}
+function ago(t){if(!t)return'never';const s=Math.floor((Date.now()-new Date(t))/1000);if(s<60)return s+'s ago';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function bars(list){const pts=list.slice(-34);if(!pts.length)return '<div class="bar"></div>';return '<div class="bar">'+pts.map(h=>'<i class="'+(h.status==='up'?'':h.status==='down'?'d':'p')+'" title="'+esc(h.status)+'"></i>').join('')+'</div>';}
+function card(m,hb){const last=hb[hb.length-1]||{},st=m.status||'pending';return '<article class="monitor"><div><div class="mname">'+esc(m.name)+'</div><div class="murl">'+esc(m.url)+'</div></div><div><span class="pill '+st+'">'+st+'</span><div class="meta" style="margin-top:6px">'+ago(m.last_checked_at)+'</div></div><div class="meta">Response<b>'+(m.last_response_ms??'—')+' ms</b>Code<b>'+(m.last_status_code??'—')+'</b></div><div class="bar-wrap">'+bars(hb)+'<div class="uptime">24h uptime '+Number(m.uptime_24h??100).toFixed(2)+'% · '+m.interval_seconds+'s interval</div></div></article>';}
+async function load(){try{
+ const since=new Date(Date.now()-86400000).toISOString();
+ const [ms,hs]=await Promise.all([api('rv_monitors?select=*&order=id'),api('rv_heartbeats?select=monitor_id,status,created_at&created_at=gte.'+encodeURIComponent(since)+'&order=created_at.asc')]);
+ const by={};hs.forEach(h=>(by[h.monitor_id]??=[]).push(h));
+ const up=ms.filter(m=>m.status==='up').length,down=ms.filter(m=>m.status==='down').length;
+ document.getElementById('sTotal').textContent=ms.length;
+ document.getElementById('sUp').textContent=up;
+ document.getElementById('sDown').textContent=down;
+ document.getElementById('sUptime').textContent=ms.length?(ms.reduce((a,m)=>a+Number(m.uptime_24h||0),0)/ms.length).toFixed(2)+'%':'—';
+ document.getElementById('list').innerHTML=ms.map(m=>card(m,by[m.id]||[])).join('')||'<div class="card meta">No monitors yet.</div>';
+ document.getElementById('statusHead').textContent=down?'Some services are experiencing issues':'All systems operational';
+ document.getElementById('statusList').innerHTML=ms.map(m=>'<article class="monitor" style="grid-template-columns:1fr 120px"><div><div class="mname">'+esc(m.name)+'</div><div class="murl">'+esc(m.url)+'</div></div><div><span class="pill '+m.status+'">'+m.status+'</span></div></article>').join('');
+ document.getElementById('live').textContent='Live · updated '+new Date().toLocaleTimeString();
+}catch(e){document.getElementById('list').innerHTML='<div class="err">Could not load live data: '+esc(e.message)+'</div>';}}
+load();setInterval(load,15000);
+</script>
+</body>
+</html>
