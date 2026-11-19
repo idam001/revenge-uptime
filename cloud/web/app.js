@@ -83,7 +83,7 @@ function renderRail() {
    <div class="card"><h3>Last 24 hours</h3><div class="kv"><span>Overall uptime</span><b style="color:var(--cyan)">${avg}%</b></div><div class="kv"><span>Checks recorded</span><b>${S.heartbeats.length}</b></div><div class="kv"><span>Incidents</span><b>${S.incidents.length}</b></div><div class="kv"><span>Failed checks</span><b>${S.heartbeats.filter((x) => x.status === "down").length}</b></div>
     <div class="legend"><span><i style="background:var(--up)"></i>Up</span><span><i style="background:var(--down)"></i>Down</span><span><i style="background:var(--pause)"></i>Paused</span></div></div>
    <div class="card"><h3>Latest events</h3><div class="event-feed">${events}</div></div>
-   <div class="card" style="text-align:center;color:var(--muted);font-size:10px">REVENGE UPTIME<br><b style="color:var(--violet)">Powered by idam Emmanuel</b></div>`;
+   <div class="card" style="text-align:center;color:var(--muted);font-size:10px">REVENGE UPTIME<br><b style="color:var(--violet)">Powered by idam Emmanuel.</b></div>`;
 }
 function bars(id, count = 34) {
   const list = S.heartbeats.filter((h) => h.monitor_id === id).slice(0, count).reverse();
@@ -224,7 +224,7 @@ function renderPublicStatus(slug) {
   const down = list.filter((m) => m.status === "down").length;
   $("#view").innerHTML = `<div class="page-head"><a href="#/status-pages" class="btn ghost">← Status pages</a><h1>${esc(p.title)}</h1></div>
    <div class="hero" style="background:linear-gradient(135deg,#6d5efc26,#22d3ee12);border:1px solid #2e2a52;border-radius:14px;padding:26px;margin-bottom:16px">
-    <h2 style="margin:0;font-size:25px">${down ? "Some systems are experiencing issues" : "All systems operational"}</h2><p class="muted">${esc(p.description || "")} · Powered by idam Emmanuel</p></div>
+    <h2 style="margin:0;font-size:25px">${down ? "Some systems are experiencing issues" : "All systems operational"}</h2><p class="muted">${esc(p.description || "")} · Powered by idam Emmanuel.</p></div>
    <div class="services">${list.map((m) => `<div class="service"><span class="dot ${m.active ? m.status : "paused"}"></span><div style="flex:1"><b>${esc(m.name)}</b><small class="muted">${Number(m.uptime_24h ?? 100).toFixed(2)}% uptime · ${ago(m.last_checked_at)}</small></div>${bars(m.id, 20)}<span class="pill ${m.active ? m.status : "paused"}">${m.active ? m.status : "paused"}</span></div>`).join("") || '<div class="empty">No monitors assigned to this page yet.</div>'}</div>
    <div class="card" style="margin-top:16px"><h3 style="color:var(--dim);font-size:12px">Recent incidents</h3>${S.incidents.slice(0, 8).map((i) => { const m = S.monitors.find((x) => x.id === i.monitor_id); return `<div class="incident-row"><span class="pill ${i.status}">${i.status}</span> <b>${esc(m?.name || "Monitor")}</b> · ${esc(i.reason || "")}<div class="muted">${fmtDate(i.started_at)}</div></div>`; }).join("") || '<div class="empty">No incidents in the recorded window.</div>'}</div>`;
 }
@@ -249,7 +249,7 @@ function renderIntegrations() {
    <div class="card" style="margin-top:12px"><h3 style="margin-top:0">Team access</h3><p class="muted">Owner: <b>idam001</b>. Notify-only and read-only seats use the same API role model.</p></div>`;
 }
 function renderTeam() {
-  $("#view").innerHTML = `<div class="page-head"><h1>Team members.</h1></div><div class="card"><div class="incident-row"><b>idam001</b> · Owner <span class="pill up" style="float:right">active</span><div class="muted">Full access · Powered by idam Emmanuel</div></div><p class="muted">Role-based seats (read, write, notify-only) use the same admin secret model as the API.</p></div>`;
+  $("#view").innerHTML = `<div class="page-head"><h1>Team members.</h1></div><div class="card"><div class="incident-row"><b>idam001</b> · Owner <span class="pill up" style="float:right">active</span><div class="muted">Full access · Powered by idam Emmanuel.</div></div><p class="muted">Role-based seats (read, write, notify-only) use the same admin secret model as the API.</p></div>`;
 }
 function render() {
   renderNav(); renderRail(); const r = route();
