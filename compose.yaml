@@ -1,0 +1,9 @@
+services:
+  revenge-uptime:
+    image: louislam/revenge-uptime:2
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+    ports:
+      # <Host Port>:<Container Port>
+      - "3001:3001"
